@@ -8,7 +8,7 @@ square_units = [cross(rs, cs) for rs in ('ABC','DEF','GHI') for cs in ('123','45
 unitlist = row_units + column_units + square_units
 
 # TODO: Update the unit list to add the new diagonal units
-diagonal_units = [[box[0]+''+box[1] for box in zip(rows, cols)], [box[0]+''+box[1] for box in zip(rows[::-1], cols)]]
+diagonal_units = [[tup[0]+''+tup[1] for tup in zip(rows, cols)], [tup[0]+''+tup[1] for tup in zip(rows[::-1], cols)]]
 unitlist += diagonal_units
 
 # Must be called after all units (including diagonals) are added to the unitlist
@@ -73,8 +73,12 @@ def eliminate(values):
     dict
         The values dictionary with the assigned values eliminated from peers
     """
-    # TODO: Copy your code from the classroom to complete this function
-    raise NotImplementedError
+    solved_values = [box for box in values.keys() if len(values[box]) == 1]
+    for box in solved_values:
+        digit = values[box]
+        for peer in peers[box]:
+            values[peer] = values[peer].replace(digit,'')
+    return values
 
 
 def only_choice(values):
