@@ -1,6 +1,4 @@
-
 from utils import *
-
 
 row_units = [cross(r, cols) for r in rows]
 column_units = [cross(rows, c) for c in cols]
@@ -53,8 +51,17 @@ def naked_twins(values):
     Pseudocode for this algorithm on github:
     https://github.com/udacity/artificial-intelligence/blob/master/Projects/1_Sudoku/pseudocode.md
     """
-    # TODO: Implement this function!
-    raise NotImplementedError
+    for box in boxes:
+        if len(values[box]) != 2:
+            continue
+        for peer_box in peers[box]:
+            if values[box] != values[peer_box]:
+                continue
+            intersections = peers[box].intersection(peers[peer_box])
+            for peer in intersections:
+                for digit in values[box]:
+                    values[peer] = values[peer].replace(digit, '')
+    return values
 
 
 def eliminate(values):
